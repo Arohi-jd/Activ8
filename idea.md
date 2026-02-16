@@ -1,158 +1,206 @@
-# idea.md → Project Idea
 
-## Project Name
+## **Active8**
 
-**CampusConnect — Sponsorship Marketplace for Student Events**
-
----
-
-## What We Are Building
-
-CampusConnect is a web-based two-sided marketplace that connects **college event organizers** and **brands** on a single professional platform.
-
-The product replaces the current cold-email + WhatsApp sponsorship culture with a structured workflow where students can create standardized sponsorship proposals and brands can discover, evaluate, and manage campus partnerships with measurable ROI.
-
-The platform handles the **complete sponsorship lifecycle**:
-Discovery → Pitch → Negotiation → Agreement → Execution → Proof → Payment → Review
+**Active8 — Sponsorship Marketplace for Student Events**
 
 ---
 
-## Scope of the Platform
+## **Problem Statement**
 
-### Primary Users
+Currently, student organizers secure sponsorships through cold emails, social media messages, and informal contacts.
+This process leads to:
 
-1. **Student Organizers (Clubs / Societies / Fest Teams)**
-2. **Brands / Marketing Teams**
-3. **Admin (Verification & Dispute Management)**
+* Very low response rates
+* Lack of credibility for student organizers
+* No structured negotiation process
+* No verification of deliverables
+* No measurable ROI for brands
 
-### Core Objective
+As a result, brands hesitate to invest in campus marketing, and student events struggle to obtain funding.
+
+CampusConnect solves this by introducing a structured and verified collaboration platform.
+
+---
+
+## **What We Are Building**
+
+CampusConnect is a web-based **two-sided marketplace** that connects **verified college organizers** and **brands** on a professional platform.
+
+The system converts informal sponsorship outreach into a structured workflow:
+
+**Discovery → Application → Acceptance → Communication → Execution → Proof Verification → Closure**
+
+Instead of scattered conversations, all sponsorship interactions occur inside a controlled environment.
+
+---
+
+## **Primary Users**
+
+1. **College Admin**
+
+   * Verifies students and manages institute presence
+
+2. **Student Organizer (Club / Society / Fest Team)**
+
+   * Creates events and requests sponsorships
+
+3. **Brand / Company**
+
+   * Finds events and collaborates with organizers
+
+4. **Platform Admin**
+
+   * Verifies institutes and resolves disputes
+
+---
+
+## **Core Objective**
 
 Create a trusted ecosystem where:
 
-* Students easily secure funding
-* Brands efficiently run campus marketing campaigns
-* Both sides operate professionally with accountability
+* Students can professionally request sponsorship
+* Brands can confidently collaborate with verified institutes
+* Partnerships are structured and accountable
 
 ---
 
-## Key Features
+## **Platform Workflow**
 
-### 1. Institutional Profiles
+### 1. Institutional Verification
 
-* Verified University parent profiles
-* Club / society sub-profiles under institutes
-* Trust badges after verification
-* Public credibility page for each organizer
+* College registers on the platform
+* Platform Admin verifies institute
+* Students request to join their college
+* College Admin approves members and assigns roles
 
----
-
-### 2. Event Listing System
-
-Students can create an event page containing:
-
-* Event description & theme
-* Expected footfall
-* Audience demographics
-* Social media reach
-* Sponsorship tiers (Silver, Gold, Platinum)
-* Deliverables offered to brands
-
-The system generates a **shareable digital proposal link**.
+Only approved organizers can publish events.
 
 ---
 
-### 3. Brand Discovery Marketplace
+### 2. Marketplace Discovery
 
-#### For Students
+Two parallel marketplaces operate:
 
-* Search brands by industry, budget, and past sponsorships
-* Send structured sponsorship pitches
+**Sponsor Marketplace (for Students)**
 
-#### For Brands
+* Students explore brands
+* Apply for sponsorship
 
-* Filter events by location, date, category, audience, and size
-* View standardized proposals
-* Shortlist or decline events
+**Event Marketplace (for Brands)**
 
----
-
-### 4. Smart Matchmaking
-
-Recommendation engine suggests:
-
-* Relevant brands to organizers
-* Relevant events to brands
+* Brands explore upcoming events
+* Apply to sponsor events
 
 ---
 
-### 5. In-Platform Communication
+### 3. Structured Application System
 
-* Built-in negotiation chat
-* Deliverable clarification threads
-* Status updates (Pending / Shortlisted / Accepted / Declined)
+Before communication begins:
 
----
+* One party submits an application
+* Other party reviews
+* Accept / Reject decision
 
-### 6. Digital Agreement System
+Direct chat is unlocked only after acceptance.
 
-* Pre-built contract templates
-* Editable terms & deliverables
-* E-signature confirmation
-* Agreement stored in dashboard
+This prevents spam and ensures professionalism.
 
 ---
 
-### 7. Proof-of-Execution Module
+### 4. Collaboration Phase
 
-Students upload:
+After acceptance:
 
-* Banner placement photos
-* Stall setup images
-* Social media screenshots
+* Negotiation happens in platform chat
+* Deliverables clarified
+* Agreement finalized
+
+---
+
+### 5. Execution & Proof
+
+After the event:
+
+Students upload proof such as:
+
+* Banner photos
+* Stall setup
+* Social media posts
 * Engagement metrics
 
-Brands verify completion before payment release.
+Brands review submissions and verify completion.
 
 ---
 
-### 8. Escrow Payment System
+### 6. Closure
 
-* Brand deposits sponsorship amount
-* Funds locked securely
-* Released after deliverable verification
-* Automated invoice generation
+After verification:
 
----
-
-### 9. Dashboard & Analytics
-
-#### Students
-
-* Funding progress tracker
-* Proposal acceptance rate
-* Sponsorship history
-
-#### Brands
-
-* Campaign performance metrics
-* Engagement analytics
-* ROI tracking
+* Collaboration marked completed
+* Both parties leave feedback
 
 ---
 
-### 10. Ratings & Trust System
+## **MVP Features (Phase 1 — What Will Be Built)**
 
-* Mutual reviews after completion
-* Reputation score for organizers and brands
-* Improves future matchmaking accuracy
+### Institutional System
+
+* Verified college profiles
+* Club sub-profiles
+* Role-based student approval
+
+### Event Management
+
+* Event creation form
+* Sponsorship tiers
+* Public proposal page
+
+### Dual Marketplace
+
+* Explore Sponsors
+* Explore Events
+* Filtering and search
+
+### Application Workflow
+
+* Student → Sponsor application
+* Brand → Event application
+* Accept / Reject system
+* Status tracking
+
+### Controlled Communication
+
+* Chat unlocked after acceptance only
+
+### Proof Verification
+
+* Upload deliverables
+* Brand verification
+
+### Dashboard
+
+* View applications
+* Manage collaborations
+* Track event status
 
 ---
 
-## Expected Outcome
+## **Future Enhancements (Phase 2 — Not in MVP)**
+* Chat feature 
+* Escrow payment integration
+* AI-based matchmaking recommendations
+* Automated contract generation
+* Campaign analytics & ROI tracking
+* Reputation scoring system
+* Invoice automation
 
-CampusConnect will function as a **professional operating system for college sponsorships**, turning informal outreach into a measurable and scalable business channel.
+---
 
-Instead of hundreds of scattered conversations, sponsorship management becomes centralized, trackable, and trustworthy.
+## **Expected Outcome**
 
-The platform aims to become the default infrastructure for campus marketing and student event funding.
+CampusConnect transforms sponsorships from informal outreach into structured partnerships.
+
+Instead of hundreds of cold emails, organizers and brands collaborate through a verified, trackable, and professional workflow.
+
+The platform acts as infrastructure for campus marketing and student event funding.
 
