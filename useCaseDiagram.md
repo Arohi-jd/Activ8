@@ -1,1 +1,1 @@
-![Use case diagram](uml%20.png)
+![Use case diagram](assets/uml%20.png)

@@ -1,1 +1,1 @@
-![Sequence diagram](Sequence.png)
+![Sequence diagram](assets/Sequence.png)
