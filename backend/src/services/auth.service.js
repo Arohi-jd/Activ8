@@ -123,6 +123,7 @@ class AuthService {
       role: user.role,
       status: user.status,
       college: user.college,
+      token,
     };
   }
 

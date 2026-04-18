@@ -3,7 +3,9 @@ const ApiError = require('../utils/ApiError');
 const userRepository = require('../repositories/user.repository');
 
 const protect = async (req, res, next) => {
-  const token = req.cookies.token;
+  const authHeader = req.headers.authorization || '';
+  const bearerToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const token = req.cookies.token || bearerToken;
 
   if (!token) {
     throw new ApiError(401, 'Unauthorized');

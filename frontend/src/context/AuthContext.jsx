@@ -8,8 +8,24 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const hasFetchedRef = useRef(false);
 
+  const setAuthToken = (token) => {
+    if (!token) {
+      return;
+    }
+
+    localStorage.setItem('authToken', token);
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    }
+  }, []);
+
   const fetchMe = async (options = {}) => {
-    const { silentUnauthorized = false } = options;
+    const { silentUnauthorized = false, clearAuthOnUnauthorized = true } = options;
 
     try {
       const res = await api.get('/auth/me');
@@ -19,6 +35,11 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
 
       const statusCode = error?.response?.status;
+      if (statusCode === 401 && clearAuthOnUnauthorized) {
+        localStorage.removeItem('authToken');
+        delete api.defaults.headers.common.Authorization;
+      }
+
       if (statusCode === 401 && silentUnauthorized) {
         return null;
       }
@@ -34,24 +55,28 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     hasFetchedRef.current = true;
-    fetchMe({ silentUnauthorized: true });
+    fetchMe({ silentUnauthorized: true, clearAuthOnUnauthorized: false });
   }, []);
 
   const login = async (email, password) => {
-    await api.post('/auth/login', { email, password });
+    const response = await api.post('/auth/login', { email, password });
+    const responseData = response?.data?.data || {};
+    const token = responseData?.token;
 
-    try {
-      await fetchMe();
-    } catch (error) {
-      if (error?.response?.status === 401) {
-        throw new Error('Login succeeded but session was not created. Enable third-party cookies and try again.');
-      }
-      throw error;
+    setAuthToken(token);
+
+    if (responseData) {
+      const { token: _token, ...userData } = responseData;
+      setUser(userData);
     }
+
+    fetchMe({ silentUnauthorized: true, clearAuthOnUnauthorized: false }).catch(() => null);
   };
 
   const logout = async () => {
     await api.post('/auth/logout');
+    localStorage.removeItem('authToken');
+    delete api.defaults.headers.common.Authorization;
     setUser(null);
   };
 
