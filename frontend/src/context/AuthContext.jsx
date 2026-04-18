@@ -8,12 +8,22 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const hasFetchedRef = useRef(false);
 
-  const fetchMe = async () => {
+  const fetchMe = async (options = {}) => {
+    const { silentUnauthorized = false } = options;
+
     try {
       const res = await api.get('/auth/me');
       setUser(res.data.data);
+      return res.data.data;
     } catch (error) {
       setUser(null);
+
+      const statusCode = error?.response?.status;
+      if (statusCode === 401 && silentUnauthorized) {
+        return null;
+      }
+
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -24,12 +34,20 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     hasFetchedRef.current = true;
-    fetchMe();
+    fetchMe({ silentUnauthorized: true });
   }, []);
 
   const login = async (email, password) => {
     await api.post('/auth/login', { email, password });
-    await fetchMe();
+
+    try {
+      await fetchMe();
+    } catch (error) {
+      if (error?.response?.status === 401) {
+        throw new Error('Login succeeded but session was not created. Enable third-party cookies and try again.');
+      }
+      throw error;
+    }
   };
 
   const logout = async () => {

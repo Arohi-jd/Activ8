@@ -22,7 +22,7 @@ const Login = () => {
     try {
       await login(email, password);
     } catch (err) {
-      setError(err?.response?.data?.message || 'Login failed');
+      setError(err?.message || err?.response?.data?.message || 'Login failed');
     }
   };
 
