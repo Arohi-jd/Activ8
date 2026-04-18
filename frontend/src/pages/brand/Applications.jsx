@@ -20,26 +20,44 @@ const BrandApplications = () => {
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Brand Applications</h2>
-      {applications.map((app) => (
-        <div key={app._id} style={{ border: '1px solid #ddd', marginTop: '0.5rem', padding: '0.5rem' }}>
-          <p>
-            Event: {app.event?.title} | Student: {app.student?.name} | Status: {app.status}
-          </p>
-          {app.status === 'pending' && app.initiatedBy === 'student' && (
-            <>
-              <button onClick={() => respond(app._id, 'accepted')}>Accept</button>
-              <button onClick={() => respond(app._id, 'rejected')}>Reject</button>
-            </>
-          )}
-          {app.status === 'accepted' ? (
-            <Link to={`/brand/chat/${app._id}`}>Open Chat</Link>
-          ) : (
-            <p style={{ color: '#666' }}>Chat unlocks after application is accepted.</p>
-          )}
-        </div>
-      ))}
+    <div className="container animate-fade-in" style={{ paddingTop: '2rem' }}>
+      <div className="mb-lg" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+        <h2>Brand Applications</h2>
+        <p style={{ margin: 0 }}>Review student sponsorship requests</p>
+      </div>
+      
+      <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))' }}>
+        {applications.map((app) => (
+          <div key={app._id} className="card flex-col flex-between">
+            <div>
+              <div className="flex-between mb-sm">
+                <h3 style={{ color: '#fff' }}>{app.event?.title}</h3>
+                <span className="badge badge-warning">{app.status}</span>
+              </div>
+              <p style={{ fontSize: '0.875rem', marginBottom: '1rem' }}>Student: <strong>{app.student?.name}</strong></p>
+            </div>
+            
+            <div className="mt-md border-top pt-sm" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
+              {app.status === 'pending' && app.initiatedBy === 'student' && (
+                <div className="flex gap-sm">
+                  <button className="btn btn-primary flex-1" onClick={() => respond(app._id, 'accepted')}>Accept</button>
+                  <button className="btn btn-secondary flex-1" onClick={() => respond(app._id, 'rejected')}>Reject</button>
+                </div>
+              )}
+              {app.status === 'accepted' ? (
+                <Link to={`/brand/chat/${app._id}`} className="btn btn-primary w-full text-center">Open Chat</Link>
+              ) : (
+                app.status !== 'pending' && <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', textAlign: 'center', margin: 0 }}>Chat unlocks after application is accepted.</p>
+              )}
+            </div>
+          </div>
+        ))}
+        {applications.length === 0 && (
+          <div className="card w-full text-center" style={{ gridColumn: '1 / -1', padding: '3rem' }}>
+            <p style={{ margin: 0 }}>No applications to display.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

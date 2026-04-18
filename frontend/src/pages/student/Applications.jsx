@@ -71,124 +71,149 @@ const StudentApplications = () => {
   const sentToBrands = applications.filter((app) => app.initiatedBy === 'student');
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Student Applications</h2>
+    <div className="container animate-fade-in" style={{ paddingTop: '2rem' }}>
+      <div className="mb-lg" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+        <h2>Student Applications</h2>
+        <p style={{ margin: 0 }}>Apply to brands and track application statuses</p>
+      </div>
 
-      <div style={{ border: '1px solid #ddd', padding: '0.75rem', marginBottom: '1rem' }}>
-        <h3>Explore Available Brands</h3>
-        {myEvents.length === 0 ? (
-          <p>Create an event first before applying to brands.</p>
-        ) : brands.length === 0 ? (
-          <p>No active brands available right now.</p>
-        ) : (
-          <form onSubmit={applyToBrand} style={{ display: 'grid', gap: '0.5rem', maxWidth: 700 }}>
-            <div>
-              <p style={{ marginBottom: '0.5rem' }}>Available Brands:</p>
-              <div style={{ display: 'grid', gap: '0.5rem' }}>
-                {brands.map((brand) => (
-                  <div
-                    key={brand._id}
-                    style={{
-                      border: form.brandId === brand._id ? '2px solid #2563eb' : '1px solid #ddd',
-                      borderRadius: '6px',
-                      padding: '0.5rem',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <div>
-                      <strong>{brand.name}</strong>
-                      <div style={{ color: '#666' }}>{brand.email}</div>
-                    </div>
-                    <button
-                      type="button"
+      <div className="grid gap-lg mb-lg">
+        <div className="card">
+          <h3 className="mb-md">Explore Available Brands</h3>
+          {myEvents.length === 0 ? (
+            <p>Create an event first before applying to brands.</p>
+          ) : brands.length === 0 ? (
+            <p>No active brands available right now.</p>
+          ) : (
+            <form onSubmit={applyToBrand} className="grid gap-md" style={{ maxWidth: 700 }}>
+              <div>
+                <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', display: 'block' }}>Available Brands</label>
+                <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+                  {brands.map((brand) => (
+                    <div
+                      key={brand._id}
+                      className={form.brandId === brand._id ? 'card' : 'card'}
+                      style={{
+                        padding: '1rem',
+                        cursor: 'pointer',
+                        borderColor: form.brandId === brand._id ? 'var(--accent-primary)' : 'var(--border-color)',
+                        boxShadow: form.brandId === brand._id ? 'var(--shadow-glow)' : 'none',
+                      }}
                       onClick={() => setForm((prev) => ({ ...prev, brandId: brand._id }))}
                     >
-                      {form.brandId === brand._id ? 'Selected' : 'Select'}
-                    </button>
-                  </div>
-                ))}
+                      <div className="flex-between">
+                        <div>
+                          <strong style={{ color: '#fff' }}>{brand.name}</strong>
+                          <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{brand.email}</div>
+                        </div>
+                        <div className={form.brandId === brand._id ? 'badge badge-primary' : ''}>
+                          {form.brandId === brand._id ? 'Selected' : ''}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <label>
-              Select Event
-              <select
-                value={form.eventId}
-                onChange={(e) => setForm((prev) => ({ ...prev, eventId: e.target.value }))}
-              >
-                {myEvents.map((event) => (
-                  <option key={event._id} value={event._id}>
-                    {event.title} ({event.status})
-                  </option>
-                ))}
-              </select>
-            </label>
+              <div className="form-group">
+                <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Select Event</label>
+                <select
+                  className="input"
+                  style={{ cursor: 'pointer' }}
+                  value={form.eventId}
+                  onChange={(e) => setForm((prev) => ({ ...prev, eventId: e.target.value }))}
+                >
+                  {myEvents.map((event) => (
+                    <option key={event._id} value={event._id}>
+                      {event.title} ({event.status})
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <p>
-              Sending to: <strong>{brands.find((b) => b._id === form.brandId)?.name || 'No brand selected'}</strong>
-            </p>
+              <div className="form-group">
+                <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Message to brand</label>
+                <textarea
+                  className="input"
+                  value={form.message}
+                  onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
+                  placeholder="Tell the brand why they should sponsor you..."
+                  rows={3}
+                  style={{ resize: 'vertical' }}
+                />
+              </div>
 
-            <textarea
-              value={form.message}
-              onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
-              placeholder="Message to brand"
-              rows={3}
-            />
+              {error && <div className="card text-error max-w-md my-sm flex-center" style={{ padding: '0.75rem', borderColor: 'var(--danger)', background: 'rgba(239, 68, 68, 0.05)' }}>{error}</div>}
+              {success && <div className="card max-w-md my-sm flex-center" style={{ color: 'var(--success)', padding: '0.75rem', borderColor: 'var(--success)', background: 'rgba(34, 197, 94, 0.05)' }}>{success}</div>}
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-
-            <button type="submit">Apply to Brand</button>
-          </form>
-        )}
+              <div>
+                <button type="submit" className="btn btn-primary">Apply to Brand</button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
 
-      <div style={{ border: '1px solid #ddd', padding: '0.75rem', marginBottom: '1rem' }}>
-        <h3>Applications Received From Brands</h3>
-        {incomingFromBrands.length === 0 ? (
-          <p>No applications received from brands yet.</p>
-        ) : (
-          incomingFromBrands.map((app) => (
-            <div key={app._id} style={{ border: '1px solid #ddd', marginTop: '0.5rem', padding: '0.5rem' }}>
-              <p>
-                Event: {app.event?.title} | Brand: {app.brand?.name} | Status: {app.status}
-              </p>
-              {app.status === 'pending' && (
-                <>
-                  <button onClick={() => respond(app._id, 'accepted')}>Accept</button>
-                  <button onClick={() => respond(app._id, 'rejected')}>Reject</button>
-                </>
-              )}
-              {app.status === 'accepted' ? (
-                <Link to={`/student/chat/${app._id}`}>Open Chat</Link>
-              ) : (
-                <p style={{ color: '#666' }}>Chat unlocks after application is accepted.</p>
-              )}
-            </div>
-          ))
-        )}
-      </div>
+      <div className="grid gap-lg" style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)' }}>
+        <section>
+          <h3 className="mb-md">Applications from Brands</h3>
+          <div className="flex-col gap-sm">
+            {incomingFromBrands.length === 0 ? (
+              <div className="card text-center" style={{ padding: '2rem 1rem' }}>
+                <p style={{ margin: 0 }}>No applications received from brands yet.</p>
+              </div>
+            ) : (
+              incomingFromBrands.map((app) => (
+                <div key={app._id} className="card">
+                  <div className="mb-sm">
+                    <h4 style={{ color: '#fff' }}>{app.event?.title}</h4>
+                    <p style={{ fontSize: '0.875rem', margin: 0 }}>Brand: {app.brand?.name}</p>
+                    <span className="badge badge-warning" style={{ marginTop: '0.5rem' }}>{app.status}</span>
+                  </div>
+                  {app.status === 'pending' && (
+                    <div className="flex gap-sm mt-sm">
+                      <button className="btn btn-primary btn-sm flex-1" onClick={() => respond(app._id, 'accepted')}>Accept</button>
+                      <button className="btn btn-secondary btn-sm flex-1" onClick={() => respond(app._id, 'rejected')}>Reject</button>
+                    </div>
+                  )}
+                  {app.status === 'accepted' ? (
+                    <Link to={`/student/chat/${app._id}`} className="btn btn-primary btn-sm w-full mt-sm">Open Chat</Link>
+                  ) : (
+                    app.status !== 'pending' && <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Chat unlocks after application is accepted.</p>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </section>
 
-      <div style={{ border: '1px solid #ddd', padding: '0.75rem' }}>
-        <h3>Applications Sent To Brands</h3>
-        {sentToBrands.length === 0 ? (
-          <p>You have not applied to any brands yet.</p>
-        ) : (
-          sentToBrands.map((app) => (
-            <div key={app._id} style={{ border: '1px solid #ddd', marginTop: '0.5rem', padding: '0.5rem' }}>
-              <p>
-                Event: {app.event?.title} | Brand: {app.brand?.name} | Status: {app.status}
-              </p>
-              {app.status === 'accepted' ? (
-                <Link to={`/student/chat/${app._id}`}>Open Chat</Link>
-              ) : (
-                <p style={{ color: '#666' }}>Waiting for brand response.</p>
-              )}
-            </div>
-          ))
-        )}
+        <section>
+          <h3 className="mb-md">Applications Sent to Brands</h3>
+          <div className="flex-col gap-sm">
+            {sentToBrands.length === 0 ? (
+              <div className="card text-center" style={{ padding: '2rem 1rem' }}>
+                <p style={{ margin: 0 }}>You have not applied to any brands yet.</p>
+              </div>
+            ) : (
+              sentToBrands.map((app) => (
+                <div key={app._id} className="card">
+                  <div className="mb-sm flex-between">
+                    <div>
+                      <h4 style={{ color: '#fff' }}>{app.event?.title}</h4>
+                      <p style={{ fontSize: '0.875rem', margin: 0 }}>Brand: {app.brand?.name}</p>
+                    </div>
+                    <span className="badge badge-warning">{app.status}</span>
+                  </div>
+                  {app.status === 'accepted' ? (
+                    <Link to={`/student/chat/${app._id}`} className="btn btn-primary btn-sm w-full mt-sm">Open Chat</Link>
+                  ) : (
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Waiting for brand response.</p>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );

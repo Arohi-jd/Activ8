@@ -42,18 +42,50 @@ const StudentChat = () => {
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Student Chat</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {messages.map((m) => (
-        <p key={m._id}>
-          <strong>{m.sender?.name}:</strong> {m.content}
-        </p>
-      ))}
-      <form onSubmit={send}>
-        <input value={content} onChange={(e) => setContent(e.target.value)} placeholder="Type message" />
-        <button type="submit">Send</button>
-      </form>
+    <div className="container animate-fade-in flex-col" style={{ height: 'calc(100vh - 72px)', paddingTop: '1rem', paddingBottom: '1rem' }}>
+      <div className="mb-md">
+        <h2>Conversation</h2>
+        <p style={{ margin: 0 }}>Discuss sponsorship details</p>
+      </div>
+      
+      {error && <div className="card text-error mb-md flex-center" style={{ padding: '0.75rem', borderColor: 'var(--danger)', background: 'rgba(239, 68, 68, 0.05)' }}>{error}</div>}
+      
+      <div className="card flex-col flex-1 pb-0 mb-0" style={{ overflow: 'hidden', padding: 0 }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {messages.length === 0 && !error ? (
+            <div className="flex-center w-full h-full text-center" style={{ color: 'var(--text-secondary)' }}>
+              Start the conversation by sending a message
+            </div>
+          ) : (
+            messages.map((m) => {
+              // Note: Assuming different styles aren't strictly based on user equality in frontend for now just alternating styles could be complex without user logic. We will style all messages uniformly cleanly.
+              return (
+                <div key={m._id} className="flex-col" style={{ maxWidth: '80%' }}>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.25rem', marginLeft: '0.5rem' }}>
+                    {m.sender?.name}
+                  </div>
+                  <div style={{ background: 'var(--bg-tertiary)', padding: '0.75rem 1rem', borderRadius: '0.75rem', color: '#fff', border: '1px solid var(--border-color)' }}>
+                    {m.content}
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+        
+        <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderTop: '1px solid var(--border-color)' }}>
+          <form onSubmit={send} className="flex gap-sm">
+            <input 
+              className="input flex-1" 
+              value={content} 
+              onChange={(e) => setContent(e.target.value)} 
+              placeholder="Type your message..." 
+              autoComplete="off"
+            />
+            <button type="submit" className="btn btn-primary" disabled={!content.trim()}>Send Message</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

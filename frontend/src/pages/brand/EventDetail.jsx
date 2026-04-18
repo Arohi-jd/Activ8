@@ -45,23 +45,49 @@ const BrandEventDetail = () => {
   }
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>{event.title}</h2>
-      <p>{event.description}</p>
-      <h3>Tiers</h3>
-      {tiers.map((tier) => (
-        <div key={tier._id}>
-          {tier.name} - ₹{tier.price} - {tier.benefits}
+    <div className="container animate-fade-in" style={{ paddingTop: '2rem' }}>
+      <div className="card mb-lg pb-md">
+        <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: '#fff' }}>{event.title}</h2>
+        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>{event.description}</p>
+        
+        <div className="mt-md p-md rounded" style={{ background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+          <h3 className="mb-sm" style={{ color: '#fff' }}>Sponsorship Tiers</h3>
+          <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
+            {tiers.map((tier) => (
+              <div key={tier._id} className="card" style={{ background: 'var(--bg-primary)' }}>
+                <h4 style={{ color: 'var(--accent-primary)', fontSize: '1.25rem', marginBottom: '0.25rem' }}>{tier.name}</h4>
+                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', marginBottom: '0.5rem' }}>₹{tier.price}</div>
+                <p style={{ fontSize: '0.875rem', margin: 0 }}>{tier.benefits}</p>
+              </div>
+            ))}
+            {tiers.length === 0 && <p>No tiers specified for this event.</p>}
+          </div>
         </div>
-      ))}
-      {feedback && <p style={{ color: '#b45309' }}>{feedback}</p>}
-      <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message" />
-      <br />
-      <button onClick={apply} disabled={submitting}>
-        {submitting ? 'Applying...' : 'Apply'}
-      </button>
-      <div style={{ marginTop: '0.75rem' }}>
-        <Link to="/brand/applications">Go to My Applications</Link>
+
+        <div className="mt-lg pt-md" style={{ borderTop: '1px solid var(--border-color)' }}>
+          <h3 className="mb-sm">Apply for Sponsorship</h3>
+          {feedback && (
+            <div className={`card mb-md flex-center ${feedback.includes('successfully') ? '' : 'text-error'}`} style={{ padding: '0.75rem', borderColor: feedback.includes('successfully') ? 'var(--success)' : 'var(--danger)', background: feedback.includes('successfully') ? 'rgba(34, 197, 94, 0.05)' : 'rgba(239, 68, 68, 0.05)', color: feedback.includes('successfully') ? 'var(--success)' : 'var(--danger)' }}>
+              {feedback}
+            </div>
+          )}
+          <div className="form-group mb-md">
+            <textarea
+              className="input"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Why are you interested in sponsoring this event?"
+              rows={4}
+              style={{ resize: 'vertical' }}
+            />
+          </div>
+          <div className="flex gap-md">
+            <button className="btn btn-primary" onClick={apply} disabled={submitting}>
+              {submitting ? 'Submitting Application...' : 'Apply as Sponsor'}
+            </button>
+            <Link to="/brand/applications" className="btn btn-secondary">Go to My Applications</Link>
+          </div>
+        </div>
       </div>
     </div>
   );

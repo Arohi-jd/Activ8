@@ -19,16 +19,31 @@ const CollegeApprovals = () => {
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Pending Students</h2>
-      {students.map((s) => (
-        <div key={s._id} style={{ border: '1px solid #ddd', marginTop: '0.5rem', padding: '0.5rem' }}>
-          {s.name} ({s.email})
-          <button onClick={() => approve(s._id)} style={{ marginLeft: '1rem' }}>
-            Approve
-          </button>
-        </div>
-      ))}
+    <div className="container animate-fade-in" style={{ paddingTop: '2rem' }}>
+      <div className="mb-lg" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+        <h2>College Admin Approvals</h2>
+        <p style={{ margin: 0 }}>Review and approve pending student accounts for your college</p>
+      </div>
+
+      <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))' }}>
+        {students.length === 0 ? (
+           <div className="card text-center w-full" style={{ gridColumn: '1 / -1', padding: '3rem' }}>
+             <p style={{ margin: 0 }}>No pending student approvals at this time.</p>
+           </div>
+        ) : (
+          students.map((s) => (
+            <div key={s._id} className="card flex-between">
+              <div>
+                <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '0.25rem' }}>{s.name}</h3>
+                <p style={{ fontSize: '0.875rem', margin: 0 }}>{s.email}</p>
+              </div>
+              <button className="btn btn-primary btn-sm" onClick={() => approve(s._id)}>
+                Approve Student
+              </button>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
