@@ -31,18 +31,41 @@ const Login = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ maxWidth: 420, margin: '2rem auto', display: 'grid', gap: '0.75rem' }}>
-      <h2>Login</h2>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">Login</button>
-    </form>
+    <div className="container flex-center" style={{ minHeight: 'calc(100vh - 72px)' }}>
+      <div className="animate-fade-in w-full max-w-md">
+        <form onSubmit={onSubmit} className="glass-panel">
+          <div className="text-center mb-lg">
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Welcome Back</h2>
+            <p>Access your Active8 dashboard</p>
+          </div>
+          
+          <div className="form-group">
+            <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Email Address</label>
+            <input 
+              className="input" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              placeholder="Enter your email" 
+            />
+          </div>
+          
+          <div className="form-group mb-md">
+            <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Password</label>
+            <input
+              className="input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
+          </div>
+          
+          {error && <div className="card text-error max-w-md mx-auto my-md flex-center" style={{ padding: '0.75rem', borderColor: 'var(--danger)', background: 'rgba(239, 68, 68, 0.05)' }}>{error}</div>}
+          
+          <button type="submit" className="btn btn-primary btn-lg btn-block mt-md">Login to Account</button>
+        </form>
+      </div>
+    </div>
   );
 };
 

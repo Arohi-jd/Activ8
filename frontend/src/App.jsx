@@ -53,7 +53,14 @@ const App = () => {
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/unauthorized" element={<h3 style={{ padding: '1rem' }}>Unauthorized</h3>} />
+        <Route path="/unauthorized" element={
+          <div className="container flex-center" style={{ minHeight: '60vh' }}>
+            <div className="card text-center" style={{ padding: '3rem' }}>
+              <h3 className="text-error" style={{ fontSize: '1.5rem' }}>Unauthorized Access</h3>
+              <p>You do not have permission to view this page.</p>
+            </div>
+          </div>
+        } />
 
         <Route
           path="/student/dashboard"

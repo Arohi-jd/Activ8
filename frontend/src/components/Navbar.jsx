@@ -11,12 +11,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ display: 'flex', gap: '1rem', padding: '1rem', borderBottom: '1px solid #ccc' }}>
-      <Link to="/">Home</Link>
-      {!user && <Link to="/login">Login</Link>}
-      {!user && <Link to="/register">Register</Link>}
-      {user && <span>Role: {user.role}</span>}
-      {user && <button onClick={handleLogout}>Logout</button>}
+    <nav className="navbar">
+      <Link to="/" className="nav-brand">Active8</Link>
+      <div className="nav-links">
+        {!user && <Link to="/login" className="nav-link">Login</Link>}
+        {!user && <Link to="/register" className="btn btn-primary btn-sm">Register</Link>}
+        {user && <span className="badge badge-primary">Role: {user.role}</span>}
+        {user && <button onClick={handleLogout} className="btn btn-secondary btn-sm">Logout</button>}
+      </div>
     </nav>
   );
 };
