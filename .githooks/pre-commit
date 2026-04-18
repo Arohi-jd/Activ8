@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Soft guardrail to keep commits small and focused
+MAX_FILES=15
+COUNT=$(git diff --cached --name-only | wc -l | tr -d ' ')
+
+if (( COUNT > MAX_FILES )); then
+  echo "❌ Too many files in one commit: $COUNT staged (max recommended: $MAX_FILES)."
+  echo "Split into smaller commits: feature + tests/docs together."
+  echo "If intentional, commit with --no-verify."
+  exit 1
+fi

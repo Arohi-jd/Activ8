@@ -1,0 +1,16 @@
+# <type>(<scope>): <short summary>
+#
+# Types: feat, fix, refactor, docs, test, chore, perf, build, ci, revert
+# Scope examples: backend, frontend, auth, applications, chat, proofs, ui
+#
+# Good examples:
+# feat(frontend): add student brand explore section
+# fix(backend): prevent duplicate application creation
+# test(applications): add service tests for respond flow
+#
+# Body (optional):
+# - Why this change is needed
+# - Key implementation notes
+#
+# Footer (optional):
+# Closes #123
