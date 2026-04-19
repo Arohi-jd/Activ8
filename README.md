@@ -1,189 +1,193 @@
-# Active8 - College Sponsorship Marketplace
+# Active8 — Events & Sponsorship Platform
 
-## Backend Setup
+Active8 is a role-based college sponsorship marketplace where students create sponsorship-ready events, brands apply to sponsor them, and college/platform admins manage trust and approvals.
+
+## How Active8 Works
+
+1. **Platform Admin** onboards and verifies colleges.  
+2. **College Admin** approves students from verified college domains.  
+3. **Student** creates an event, defines sponsorship tiers, and publishes it.  
+4. **Brand** discovers published events and submits sponsorship applications.  
+5. After acceptance, both sides get a conversation channel for coordination.  
+6. **Student** uploads proof of delivery, and **Brand** approves it.  
+7. Once all required proofs are approved, the event is marked complete.
+
+---
+
+## Dashboard Screens
+
+### Platform Admin Dashboard
+<img src="https://github.com/user-attachments/assets/e4b46a44-ad49-4863-b17a-3792d5cd39e0" alt="Platform Admin Dashboard" />
+
+### Student Dashboard
+<img src="https://github.com/user-attachments/assets/ffbb98ad-e2bd-44f9-961c-9c60b96df9b7" alt="Student Dashboard" />
+
+### College Admin Dashboard
+<img src="https://github.com/user-attachments/assets/2ceeb478-ed62-4692-9852-0ffd4e2b3af4" alt="College Admin Dashboard" />
+
+### Brand Dashboard
+<img src="https://github.com/user-attachments/assets/666e3500-cd86-4852-b9f8-48402e37a1f4" alt="Brand Dashboard" />
+
+---
+
+## Core Features
+
+- Role-based access: `student`, `brand`, `college_admin`, `platform_admin`
+- College verification workflow
+- Student approval workflow
+- Event creation and publishing by students
+- Sponsorship tiers per event
+- Brand ↔ Student application and acceptance flow
+- Auto-created conversations after accepted applications
+- Proof upload and approval flow
+- Event auto-completion after proof approvals
+
+---
+
+## Tech Stack
+
+### Frontend
+- React + Vite
+- React Router DOM
+- Axios
+- Context API (authentication state)
+
+### Backend
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT auth with httpOnly cookies
+- Multer for uploads
+- Repository-service-controller architecture
+
+---
+
+## Project Structure
+
+```text
+Activ8/
+├── backend/    # Express API
+├── frontend/   # React client
+└── README.md
+```
+
+---
+
+## Local Setup
 
 ### Prerequisites
 - Node.js v18+
-- MongoDB running locally on `mongodb://localhost:27017`
+- MongoDB running locally
 
-### Installation
+### 1) Backend Setup
 
 ```bash
 cd backend
 npm install
 ```
 
-### Run Development Server
+Create `.env` in `backend/` with:
+
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/active8
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=7d
+FRONTEND_URL=http://localhost:5173
+```
+
+Run backend:
 
 ```bash
 npm run dev
 ```
 
-Server will start on `http://localhost:5000`
+Backend runs at `http://localhost:5000`.
 
----
-
-## Frontend Setup
-
-### Prerequisites
-- Node.js v18+
-
-### Installation
+### 2) Frontend Setup
 
 ```bash
 cd frontend
 npm install
 ```
 
-### Run Development Server
+Create `.env` in `frontend/` with:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+Run frontend:
 
 ```bash
 npm run dev
 ```
 
-Frontend will start on `http://localhost:5173`
+Frontend runs at `http://localhost:5173`.
 
 ---
 
-## Architecture
-
-### Backend
-- **Node.js + Express.js**: REST API server
-- **MongoDB + Mongoose**: Database
-- **JWT (httpOnly cookies)**: Authentication
-- **Multer**: File uploads
-- **OOP Pattern**: BaseRepository → Services → Controllers
-
-### Frontend
-- **React.js + Vite**: UI framework
-- **Axios**: HTTP client with credentials
-- **React Router DOM**: Routing
-- **Context API**: AuthContext for user state
-
----
-
-## Database Setup
-
-1. Ensure MongoDB is running
-2. API will auto-create collections on first use
-
----
-
-## Key Features
-
-1. **User Roles**: student, brand, college_admin, platform_admin
-2. **College Verification**: Only platform_admin can verify colleges
-3. **Student Approval**: college_admin approves students of their college
-4. **Event Management**: Students create and publish events with sponsorship tiers
-5. **Applications**: Brands and students apply to events
-6. **Chat**: Auto-enabled after application acceptance
-7. **Proof Submission**: Students upload proof, brands approve
-8. **Event Completion**: Event marked as completed when all proofs are approved
-
----
-
-## API Routes
+## API Overview
 
 ### Auth
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login
-- `POST /api/auth/logout` - Logout
-- `GET /api/auth/me` - Get current user
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
 
 ### Colleges
-- `POST /api/colleges` - Create college (college_admin)
-- `GET /api/colleges` - List colleges (platform_admin)
-- `PATCH /api/colleges/:id/verify` - Verify college (platform_admin)
-- `GET /api/colleges/students/pending` - Pending students (college_admin)
-- `PATCH /api/colleges/students/:id/approve` - Approve student (college_admin)
+- `POST /api/colleges`
+- `GET /api/colleges`
+- `PATCH /api/colleges/:id/verify`
+- `GET /api/colleges/students/pending`
+- `PATCH /api/colleges/students/:id/approve`
 
 ### Events
-- `POST /api/events` - Create event (student)
-- `GET /api/events` - List events
-- `GET /api/events/:id` - Get event detail
-- `PATCH /api/events/:id/publish` - Publish event (student owner)
-- `POST /api/events/:id/tiers` - Add tier (student owner)
-- `GET /api/events/:id/tiers` - Get tiers
+- `POST /api/events`
+- `GET /api/events`
+- `GET /api/events/:id`
+- `PATCH /api/events/:id/publish`
+- `POST /api/events/:id/tiers`
+- `GET /api/events/:id/tiers`
 
 ### Applications
-- `POST /api/applications` - Create application (student/brand)
-- `GET /api/applications/mine` - My applications (student/brand)
-- `PATCH /api/applications/:id/respond` - Respond to application
+- `POST /api/applications`
+- `GET /api/applications/mine`
+- `PATCH /api/applications/:id/respond`
 
 ### Conversations
-- `GET /api/conversations/:applicationId` - Get conversation
-- `POST /api/conversations/:id/messages` - Send message
-- `GET /api/conversations/:id/messages` - Get messages
+- `GET /api/conversations/:applicationId`
+- `POST /api/conversations/:id/messages`
+- `GET /api/conversations/:id/messages`
 
 ### Proofs
-- `POST /api/proofs` - Upload proof (student, multipart)
-- `GET /api/proofs/event/:eventId` - Get proofs (brand)
-- `PATCH /api/proofs/:id/approve` - Approve proof (brand)
+- `POST /api/proofs`
+- `GET /api/proofs/event/:eventId`
+- `PATCH /api/proofs/:id/approve`
 
 ---
 
-## Testing Flow
+## Demo Flow (Recommended)
 
-### 1. Setup Platform Admin
-```
-1. POST /api/auth/register with role='platform_admin'
-   → Automatically active
-```
-
-### 2. Create College
-```
-1. POST /api/auth/register with role='college_admin', collegeDomain='' (empty)
-   → Status = pending
-2. Platform admin: PATCH /api/colleges/{collegeId}/verify
-   → College verified, college_admin activated
-```
-
-### 3. Student Registration & Approval
-```
-1. POST /api/auth/register with role='student', collegeDomain='yourschool.edu'
-   → Status = pending
-2. College admin: GET /api/colleges/students/pending
-3. College admin: PATCH /api/colleges/students/{studentId}/approve
-   → Student activated
-```
-
-### 4. Brand Registration
-```
-1. POST /api/auth/register with role='brand'
-   → Automatically active
-```
-
-### 5. Event Flow
-```
-1. Student: POST /api/events (create event in draft)
-2. Student: POST /api/events/{id}/tiers (add sponsorship tiers)
-3. Student: PATCH /api/events/{id}/publish (publish event)
-4. Brand: GET /api/events (see published events)
-5. Brand: POST /api/applications (apply)
-6. Student: GET /api/applications/mine (see brand application)
-7. Student: PATCH /api/applications/{id}/respond with status='accepted'
-   → Conversation auto-created
-8. Both: Chat on conversation
-```
-
-### 6. Proof Flow
-```
-1. Student: POST /api/proofs with file upload
-2. Brand: GET /api/proofs/event/{eventId} (review)
-3. Brand: PATCH /api/proofs/{id}/approve (approve)
-   → When all proofs approved, event.status = 'completed'
-```
+1. Register platform admin  
+2. Register college admin and verify college  
+3. Register student and approve from college admin dashboard  
+4. Register brand  
+5. Student creates and publishes event with tiers  
+6. Brand applies to sponsor  
+7. Student accepts application  
+8. Both users chat and coordinate  
+9. Student uploads proof, brand approves, event completes
 
 ---
 
-## Code Quality Highlights
+## Scripts
 
-✅ **No try/catch** in controllers (express-async-errors)
-✅ **No model imports** in services (repository pattern)
-✅ **No business logic** in controllers or routes
-✅ **Repository Pattern** - All DB access through repositories
-✅ **Singleton Pattern** - One instance per repository
-✅ **OOP Inheritance** - All repositories extend BaseRepository
-✅ **Polymorphism** - authorize middleware works for any role combination
-✅ **Complete CRUD** - BaseRepository handles findById, findOne, find, create, update, delete
+### Backend (`backend/package.json`)
+- `npm run dev` — start backend with nodemon
+- `npm start` — start backend with node
+- `npm run seed` — run seed script
 
+### Frontend (`frontend/package.json`)
+- `npm run dev` — start Vite dev server
+- `npm run build` — production build
+- `npm run preview` — preview production build
