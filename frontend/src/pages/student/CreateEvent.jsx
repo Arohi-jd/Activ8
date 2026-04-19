@@ -1,21 +1,41 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import api from '../../services/api';
 
 const CreateEvent = () => {
   const [form, setForm] = useState({
     title: '',
     description: '',
-    date: '',
+    date: null,
     location: '',
     footfall: 0,
   });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await api.post('/events', form);
+
+    if (!form.date) {
+      setError('Please select event date and time');
+      return;
+    }
+
+    setError('');
+
+    const payload = {
+      ...form,
+      date: new Date(form.date).toISOString(),
+    };
+
+    await api.post('/events', payload);
     navigate('/student/dashboard');
+  };
+
+  const onChange = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
   };
 
   return (
@@ -28,29 +48,41 @@ const CreateEvent = () => {
           </div>
           
           <form onSubmit={onSubmit} className="grid gap-md">
+            {error && <p className="text-error" style={{ margin: 0 }}>{error}</p>}
             <div className="form-group">
               <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Event Title</label>
-              <input className="input" placeholder="e.g., Tech Summit 2026" onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+              <input className="input" value={form.title} placeholder="e.g., Tech Summit 2026" onChange={(e) => onChange('title', e.target.value)} required />
             </div>
             
             <div className="form-group">
               <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Description</label>
-              <textarea className="input" placeholder="What is this event about?" onChange={(e) => setForm({ ...form, description: e.target.value })} rows={4} style={{ resize: 'vertical' }} required />
+              <textarea className="input" value={form.description} placeholder="What is this event about?" onChange={(e) => onChange('description', e.target.value)} rows={4} style={{ resize: 'vertical' }} required />
             </div>
             
             <div className="grid gap-md" style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)' }}>
               <div className="form-group">
                 <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Date & Time</label>
-                <input className="input" type="datetime-local" onChange={(e) => setForm({ ...form, date: e.target.value })} required />
+                <DatePicker
+                  selected={form.date}
+                  onChange={(date) => onChange('date', date)}
+                  showTimeSelect
+                  timeIntervals={15}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  minDate={new Date()}
+                  placeholderText="Select date and time"
+                  className="input"
+                  required
+                />
               </div>
-              
+
               <div className="form-group">
                 <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Expected Footfall</label>
                 <input
                   className="input"
                   type="number"
+                  value={form.footfall || ''}
                   placeholder="e.g., 5000"
-                  onChange={(e) => setForm({ ...form, footfall: Number(e.target.value) })}
+                  onChange={(e) => onChange('footfall', Number(e.target.value))}
                   required
                 />
               </div>
@@ -58,7 +90,7 @@ const CreateEvent = () => {
 
             <div className="form-group mb-lg">
               <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Location</label>
-              <input className="input" placeholder="e.g., Main Campus Auditorium" onChange={(e) => setForm({ ...form, location: e.target.value })} required />
+              <input className="input" value={form.location} placeholder="e.g., Main Campus Auditorium" onChange={(e) => onChange('location', e.target.value)} required />
             </div>
             
             <div className="flex justify-end pt-sm">
