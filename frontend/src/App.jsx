@@ -49,102 +49,104 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomeRedirect />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/unauthorized" element={
-          <div className="container flex-center" style={{ minHeight: '60vh' }}>
-            <div className="card text-center" style={{ padding: '3rem' }}>
-              <h3 className="text-error" style={{ fontSize: '1.5rem' }}>Unauthorized Access</h3>
-              <p>You do not have permission to view this page.</p>
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<HomeRedirect />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/unauthorized" element={
+            <div className="container flex-center" style={{ minHeight: '60vh' }}>
+              <div className="card text-center" style={{ padding: '3rem' }}>
+                <h3 className="text-error" style={{ fontSize: '1.5rem' }}>Unauthorized Access</h3>
+                <p>You do not have permission to view this page.</p>
+              </div>
             </div>
-          </div>
-        } />
+          } />
 
-        <Route
-          path="/student/dashboard"
-          element={
-            <ProtectedRoute roles={['student']}>
-              <StudentDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/student/events/create"
-          element={
-            <ProtectedRoute roles={['student']}>
-              <CreateEvent />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/student/applications"
-          element={
-            <ProtectedRoute roles={['student']}>
-              <StudentApplications />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/student/chat/:appId"
-          element={
-            <ProtectedRoute roles={['student']}>
-              <StudentChat />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/student/dashboard"
+            element={
+              <ProtectedRoute roles={['student']}>
+                <StudentDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/events/create"
+            element={
+              <ProtectedRoute roles={['student']}>
+                <CreateEvent />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/applications"
+            element={
+              <ProtectedRoute roles={['student']}>
+                <StudentApplications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/chat/:appId"
+            element={
+              <ProtectedRoute roles={['student']}>
+                <StudentChat />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/brand/dashboard"
-          element={
-            <ProtectedRoute roles={['brand']}>
-              <BrandDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/brand/events/:id"
-          element={
-            <ProtectedRoute roles={['brand']}>
-              <BrandEventDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/brand/applications"
-          element={
-            <ProtectedRoute roles={['brand']}>
-              <BrandApplications />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/brand/chat/:appId"
-          element={
-            <ProtectedRoute roles={['brand']}>
-              <BrandChat />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/brand/dashboard"
+            element={
+              <ProtectedRoute roles={['brand']}>
+                <BrandDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/brand/events/:id"
+            element={
+              <ProtectedRoute roles={['brand']}>
+                <BrandEventDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/brand/applications"
+            element={
+              <ProtectedRoute roles={['brand']}>
+                <BrandApplications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/brand/chat/:appId"
+            element={
+              <ProtectedRoute roles={['brand']}>
+                <BrandChat />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/college-admin/approvals"
-          element={
-            <ProtectedRoute roles={['college_admin']}>
-              <CollegeApprovals />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/platform-admin/colleges"
-          element={
-            <ProtectedRoute roles={['platform_admin']}>
-              <PlatformColleges />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/college-admin/approvals"
+            element={
+              <ProtectedRoute roles={['college_admin']}>
+                <CollegeApprovals />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/platform-admin/colleges"
+            element={
+              <ProtectedRoute roles={['platform_admin']}>
+                <PlatformColleges />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </main>
     </>
   );
 };

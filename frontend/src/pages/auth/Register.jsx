@@ -49,65 +49,42 @@ const Register = () => {
   };
 
   return (
-    <div className="container flex-center" style={{ minHeight: 'calc(100vh - 72px)' }}>
-      <div className="animate-fade-in w-full max-w-md">
-        <form onSubmit={onSubmit} className="glass-panel">
-          <div className="text-center mb-md">
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Create Account</h2>
-            <p>Join Active8 today</p>
-          </div>
-          
-          <div className="form-group">
-            <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Full Name</label>
-            <input className="input" name="name" value={form.name} onChange={onChange} placeholder="Enter your name" />
-          </div>
-          
-          <div className="form-group">
-            <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Email Address</label>
-            <input className="input" name="email" value={form.email} onChange={onChange} placeholder="Enter your email" />
-          </div>
-          
-          <div className="form-group">
-            <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Password</label>
-            <input className="input" name="password" type="password" value={form.password} onChange={onChange} placeholder="Create a password" />
-          </div>
-          
-          <div className="form-group mb-md">
-            <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Account Type</label>
-            <select className="input" name="role" value={form.role} onChange={onChange} style={{ cursor: 'pointer' }}>
-              <option value="student">Student</option>
-              <option value="brand">Brand</option>
-              <option value="college_admin">College Admin</option>
-              <option value="platform_admin">Platform Admin</option>
-            </select>
-          </div>
-
-          {form.role === 'student' && (
-            <div className="form-group mb-md">
-              <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>College Domain</label>
-              <input
-                className="input"
-                name="collegeDomain"
-                value={form.collegeDomain}
-                onChange={onChange}
-                placeholder="e.g. mit.edu"
-              />
+    <div className="container auth-shell">
+      <div className="animate-fade-in auth-layout auth-layout-center">
+        <section className="auth-panel card">
+          <form onSubmit={onSubmit} className="grid gap-md">
+            <div className="auth-heading">
+              <h2 style={{ fontSize: '2rem', marginBottom: '0.35rem' }}>Create Account</h2>
+              <p style={{ margin: 0 }}>Set up your Active8 workspace.</p>
             </div>
-          )}
 
-          {form.role === 'college_admin' && (
-            <>
+            <div className="form-group">
+              <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Full Name</label>
+              <input className="input" name="name" value={form.name} onChange={onChange} placeholder="Enter your name" />
+            </div>
+            
+            <div className="form-group">
+              <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Email Address</label>
+              <input className="input" name="email" value={form.email} onChange={onChange} placeholder="Enter your email" />
+            </div>
+            
+            <div className="form-group">
+              <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Password</label>
+              <input className="input" name="password" type="password" value={form.password} onChange={onChange} placeholder="Create a password" />
+            </div>
+            
+            <div className="form-group">
+              <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Account Type</label>
+              <select className="input" name="role" value={form.role} onChange={onChange} style={{ cursor: 'pointer' }}>
+                <option value="student">Student</option>
+                <option value="brand">Brand</option>
+                <option value="college_admin">College Admin</option>
+                <option value="platform_admin">Platform Admin</option>
+              </select>
+            </div>
+
+            {form.role === 'student' && (
               <div className="form-group">
-                <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>College Name</label>
-                <input
-                  className="input"
-                  name="collegeName"
-                  value={form.collegeName}
-                  onChange={onChange}
-                  placeholder="Enter college name"
-                />
-              </div>
-              <div className="form-group mb-md">
                 <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>College Domain</label>
                 <input
                   className="input"
@@ -117,18 +94,43 @@ const Register = () => {
                   placeholder="e.g. mit.edu"
                 />
               </div>
-            </>
-          )}
+            )}
 
-          {error && <div className="card text-error max-w-md mx-auto my-md flex-center" style={{ padding: '0.75rem', borderColor: 'var(--danger)', background: 'rgba(239, 68, 68, 0.05)' }}>{error}</div>}
-          {success && <div className="card max-w-md mx-auto my-md flex-center" style={{ color: 'var(--success)', padding: '0.75rem', borderColor: 'var(--success)', background: 'rgba(34, 197, 94, 0.05)' }}>{success}</div>}
-          
-          <button type="submit" className="btn btn-primary btn-lg btn-block mt-md">Register</button>
-          
-          <div className="text-center mt-md">
-            <Link to="/login" style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Already have an account? <span style={{ color: 'var(--accent-primary)' }}>Login here</span></Link>
-          </div>
-        </form>
+            {form.role === 'college_admin' && (
+              <div className="grid gap-md">
+                <div className="form-group">
+                  <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>College Name</label>
+                  <input
+                    className="input"
+                    name="collegeName"
+                    value={form.collegeName}
+                    onChange={onChange}
+                    placeholder="Enter college name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>College Domain</label>
+                  <input
+                    className="input"
+                    name="collegeDomain"
+                    value={form.collegeDomain}
+                    onChange={onChange}
+                    placeholder="e.g. mit.edu"
+                  />
+                </div>
+              </div>
+            )}
+
+            {error && <div className="card text-error auth-feedback">{error}</div>}
+            {success && <div className="card auth-success-feedback">{success}</div>}
+            
+            <button type="submit" className="btn btn-primary btn-lg btn-block">Register</button>
+            
+            <div className="text-center">
+              <Link to="/login" className="link-button">Already have an account? Login here</Link>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
   );

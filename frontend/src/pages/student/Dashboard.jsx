@@ -27,33 +27,55 @@ const StudentDashboard = () => {
   const incomingPending = applications.filter((app) => app.initiatedBy === 'brand' && app.status === 'pending');
 
   return (
-    <div className="container animate-fade-in" style={{ paddingTop: '2rem' }}>
-      <div className="flex-between mb-lg" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+    <div className="container animate-fade-in dashboard-shell">
+      <div className="dashboard-hero card">
         <div>
-          <h2>Student Dashboard</h2>
-          <p style={{ margin: 0 }}>Manage your events and applications</p>
+          <span className="badge badge-primary">Student Dashboard</span>
+          <h2 style={{ marginTop: '0.75rem' }}>Manage your events and applications</h2>
+          <p style={{ marginBottom: 0 }}>Track pending sponsorship requests, publish events, and keep everything in one place.</p>
         </div>
-        <div className="flex gap-sm">
+        <div className="flex gap-sm dashboard-actions">
           <Link to="/student/events/create" className="btn btn-primary">Create Event</Link>
           <Link to="/student/applications" className="btn btn-secondary">View Applications</Link>
         </div>
       </div>
 
-      {error && <div className="card text-error mb-md flex-center" style={{ padding: '0.75rem', borderColor: 'var(--danger)', background: 'rgba(239, 68, 68, 0.05)' }}>{error}</div>}
+      {error && <div className="card text-error auth-feedback">{error}</div>}
 
-      <div className="grid gap-lg" style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)' }}>
-        <section>
-          <h3 className="mb-md">Incoming Brand Applications</h3>
+      <div className="stats-grid">
+        <div className="card stat-card">
+          <span>Events</span>
+          <strong>{events.length}</strong>
+        </div>
+        <div className="card stat-card">
+          <span>Pending requests</span>
+          <strong>{incomingPending.length}</strong>
+        </div>
+        <div className="card stat-card">
+          <span>Total applications</span>
+          <strong>{applications.length}</strong>
+        </div>
+      </div>
+
+      <div className="grid gap-lg dashboard-grid">
+        <section className="card dashboard-section">
+          <div className="section-heading">
+            <div>
+              <h3>Incoming Brand Applications</h3>
+              <p>Requests that need your attention.</p>
+            </div>
+          </div>
+
           <div className="flex-col gap-sm">
             {incomingPending.length === 0 ? (
-              <div className="card text-center" style={{ padding: '2rem 1rem' }}>
+              <div className="empty-state">
                 <p style={{ margin: 0 }}>No pending applications yet.</p>
               </div>
             ) : (
               incomingPending.map((app) => (
-                <div key={app._id} className="card flex-between">
+                <div key={app._id} className="list-card">
                   <div>
-                    <h4 style={{ color: '#fff' }}>{app.event?.title}</h4>
+                    <h4>{app.event?.title}</h4>
                     <p style={{ fontSize: '0.875rem', margin: 0 }}>Brand: {app.brand?.name}</p>
                   </div>
                   <span className="badge badge-warning">{app.status}</span>
@@ -63,21 +85,29 @@ const StudentDashboard = () => {
           </div>
         </section>
 
-        <section>
-          <h3 className="mb-md">My Events</h3>
+        <section className="card dashboard-section">
+          <div className="section-heading">
+            <div>
+              <h3>My Events</h3>
+              <p>Publish and manage your event listings.</p>
+            </div>
+          </div>
+
           <div className="flex-col gap-sm">
             {events.length === 0 ? (
-               <div className="card text-center" style={{ padding: '2rem 1rem' }}>
+               <div className="empty-state">
                  <p style={{ margin: 0 }}>You haven't created any events.</p>
                </div>
             ) : (
               events.map((event) => (
-                <div key={event._id} className="card flex-between">
+                <div key={event._id} className="list-card">
                   <div>
-                    <h4 style={{ color: '#fff' }}>{event.title}</h4>
-                    <span className={event.status === 'published' ? 'badge badge-success' : 'badge badge-warning'} style={{ marginTop: '0.25rem' }}>
-                      {event.status}
-                    </span>
+                    <h4>{event.title}</h4>
+                    <div className="flex gap-sm" style={{ marginTop: '0.5rem' }}>
+                      <span className={event.status === 'published' ? 'badge badge-success' : 'badge badge-warning'}>
+                        {event.status}
+                      </span>
+                    </div>
                   </div>
                   {event.status !== 'published' && (
                     <button
