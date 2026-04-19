@@ -1,4 +1,4 @@
-# Active8 — Events & Sponsorship Platform
+# Active8 — Events & Sponsorship Platform activ8-ashen.vercel.app
 
 Active8 is a role-based college sponsorship marketplace where students create sponsorship-ready events, brands apply to sponsor them, and college/platform admins manage trust and approvals.
 
